@@ -1,8 +1,11 @@
 <template>
   <div id="nav">
-    <router-link to="/" class="logo-container">
-      <PetLogo />
-      Guardian
+    <router-link to="/" class="logo-container router-link">
+      <PetLogo width="30px" height="30px" />
+      <div>Guardian</div>
+    </router-link>
+    <router-link to="/pets" class="router-link">
+      All Pets
     </router-link>
   </div>
 </template>
@@ -23,26 +26,30 @@ export default Vue.extend({
 
 <style scoped>
 #nav {
-  align-items: center;
+  align-items: flex-end;
   display: flex;
-  font-size: 2rem;
+  min-height: 5rem;
   padding: 30px;
+}
 
-  & > * {
-    margin-right: 10px;
-  }
+.router-link {
+  color: var(--guardian-primary);
+  font-size: 1.2rem;
+  margin-right: 15px;
+  text-decoration: none;
 }
 
 .logo-container {
-  align-items: center;
-  color: var(--guardian-primary);
+  align-items: flex-end;
   display: flex;
   font-weight: bold;
-  text-decoration: none;
+  font-size: 1.8rem;
+  line-height: 1;
+  margin-right: 50px;
 
   & > svg {
-    height: 100%;
     margin-right: 5px;
+    margin-bottom: 2px;
     fill: var(--guardian-primary);
   }
 
