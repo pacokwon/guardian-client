@@ -19,7 +19,7 @@ export default Vue.extend({
 
 <style>
 :root {
-  --guardian-primary: #545ef0;
+  --guardian-primary: var(--primary);
 }
 
 #app {
