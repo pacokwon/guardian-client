@@ -1,16 +1,15 @@
 <template>
   <div>
-    <div>This is PetBoard</div>
-    <ul>
-      <li v-for="pet in petsList" :key="pet.id">
-        {{ pet.nickname }}
-      </li>
-    </ul>
+    <div v-for="pet in petsList" :key="pet.id">
+      <pet-card v-bind="pet" />
+    </div>
   </div>
 </template>
+
 <script lang="ts">
 import Vue from 'vue';
 import gql from 'graphql-tag';
+import PetCard from '@/components/PetCard.vue';
 import { User, Pet } from '@/types';
 
 type PetWithGuardian = Pet & {
@@ -20,6 +19,10 @@ type PetWithGuardian = Pet & {
 type PetWithGuardianNode = { node: PetWithGuardian };
 
 export default Vue.extend({
+  name: 'pet-board',
+  components: {
+    PetCard
+  },
   data() {
     return {
       petsList: [] as PetWithGuardian[],
