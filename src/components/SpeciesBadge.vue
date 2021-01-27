@@ -12,8 +12,14 @@ export default Vue.extend({
   },
   computed: {
     variant() {
-      return this.species === 'dog' ? 'primary' : 'secondary';
+      return this.species.toLowerCase() === 'dog' ? 'primary' : 'secondary';
     }
   }
 });
 </script>
+
+<style scoped>
+span.badge {
+  text-transform: capitalize;
+}
+</style>
