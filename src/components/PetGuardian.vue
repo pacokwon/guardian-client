@@ -67,6 +67,6 @@ div.card {
 }
 
 h4 {
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 </style>

@@ -35,7 +35,7 @@ export default Vue.extend({
 .router-link {
   color: var(--guardian-primary);
   font-size: 1.2rem;
-  margin-right: 15px;
+  margin-right: 16px;
   text-decoration: none;
 }
 
@@ -48,7 +48,7 @@ export default Vue.extend({
   margin-right: 50px;
 
   & > svg {
-    margin-right: 5px;
+    margin-right: 4px;
     margin-bottom: 2px;
     fill: var(--guardian-primary);
   }

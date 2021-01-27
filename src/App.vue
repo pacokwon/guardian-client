@@ -49,7 +49,7 @@ export default Vue.extend({
 .fade-move {
   &-enter,
   &-leave-to {
-    transform: translate(0, 15px);
+    transform: translate(0, 16px);
     opacity: 0;
   }
 
@@ -58,4 +58,9 @@ export default Vue.extend({
     transition: all 0.8s ease;
   }
 }
+
+/* --breakpoint-sm: 576px; */
+/* --breakpoint-md: 768px; */
+/* --breakpoint-lg: 992px; */
+/* --breakpoint-xl: 1200px; */
 </style>
