@@ -1,7 +1,7 @@
 <template>
   <b-card no-body>
     <b-card-body>
-      <h4>Guardian</h4>
+      <h4 class="card-title">Current Guardian</h4>
       <div v-if="guardian === null">
         This pet is not registered to a guardian.
       </div>
@@ -66,7 +66,7 @@ div.card {
   }
 }
 
-h4 {
+h4.card-title {
   margin-bottom: 16px;
 }
 </style>

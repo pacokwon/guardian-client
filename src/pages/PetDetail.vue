@@ -105,6 +105,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 .pet-detail {
   display: grid;
+  gap: 16px 16px;
   grid-template-columns: repeat(5, 1fr);
   grid-template-areas:
     'profile  profile  history history history'
