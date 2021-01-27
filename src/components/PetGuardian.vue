@@ -27,13 +27,13 @@ export default Vue.extend({
     }
   },
   computed: {
-    id() {
+    id(): string {
       return this.guardian?.id || '';
     },
-    nickname() {
+    nickname(): string {
       return this.guardian?.nickname || '';
     },
-    guardianImageUrl() {
+    guardianImageUrl(): string {
       return getAvatarUrlFromID(this.guardian?.id || 0);
     }
   }
