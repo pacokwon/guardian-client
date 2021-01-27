@@ -8,7 +8,11 @@
       :species="species"
     />
     <pet-guardian class="pet-detail--guardian" :guardian="guardian" />
-    <div class="pet-detail--history">History</div>
+    <pet-guardian-history
+      class="pet-detail--history"
+      :history="userHistory"
+      :petNickname="nickname"
+    />
   </div>
 </template>
 
