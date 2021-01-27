@@ -18,12 +18,22 @@ import gql from 'graphql-tag';
 import { UserPetHistory, Node } from '@/types';
 import PetProfile from '@/components/PetProfile.vue';
 import PetGuardian from '@/components/PetGuardian.vue';
+import PetGuardianHistory from '@/components/PetGuardianHistory.vue';
+
+type UserPetHistoryInput = Omit<
+  UserPetHistory,
+  'releasedAt' | 'registeredAt'
+> & {
+  releasedAt: string; // ISO String
+  registeredAt: string; // ISO String
+};
 
 export default Vue.extend({
   name: 'pet-detail',
   components: {
     PetProfile,
-    PetGuardian
+    PetGuardian,
+    PetGuardianHistory
   },
   data() {
     return {
@@ -53,10 +63,13 @@ export default Vue.extend({
             userHistory {
               edges {
                 node {
+                  id
                   user {
+                    id
                     nickname
                   }
                   releasedAt
+                  registeredAt
                   released
                 }
               }
@@ -76,9 +89,14 @@ export default Vue.extend({
     this.imageUrl = imageUrl;
     this.guardian = guardian;
     this.userHistory = (userHistory?.edges || []).map(
-      ({ node }: Node<UserPetHistory>) => ({
-        ...node
-      })
+      ({ node }: Node<UserPetHistoryInput>) => {
+        const { releasedAt, registeredAt, ...rest } = node;
+        return {
+          releasedAt: new Date(releasedAt),
+          registeredAt: new Date(registeredAt),
+          ...rest
+        };
+      }
     );
   }
 });
