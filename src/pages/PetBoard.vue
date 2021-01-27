@@ -10,13 +10,11 @@
 import Vue from 'vue';
 import gql from 'graphql-tag';
 import PetCard from '@/components/PetCard.vue';
-import { User, Pet } from '@/types';
+import { User, Pet, Node } from '@/types';
 
 type PetWithGuardian = Pet & {
   user: User | null;
 };
-
-type PetWithGuardianNode = { node: PetWithGuardian };
 
 export default Vue.extend({
   name: 'pet-board',
@@ -52,7 +50,7 @@ export default Vue.extend({
 
     this.petsList = (
       result?.data?.pets?.edges || []
-    ).map(({ node }: PetWithGuardianNode) => ({ ...node }));
+    ).map(({ node }: Node<PetWithGuardian>) => ({ ...node }));
   }
 });
 </script>
