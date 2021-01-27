@@ -17,7 +17,7 @@ export default Vue.extend({
 });
 </script>
 
-<style>
+<style lang="scss">
 :root {
   --guardian-primary: var(--primary);
 }
@@ -28,29 +28,33 @@ export default Vue.extend({
   -moz-osx-font-smoothing: grayscale;
 }
 
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
+.fade {
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+  }
+
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.5s ease;
+  }
+
+  &-enter-to,
+  &-leave {
+    opacity: 1;
+  }
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.5s ease;
-}
+.fade-move {
+  &-enter,
+  &-leave-to {
+    transform: translate(0, 15px);
+    opacity: 0;
+  }
 
-.fade-enter-to,
-.fade-leave {
-  opacity: 1;
-}
-
-.fade-move-enter,
-.fade-move-leave-to {
-  transform: translate(0, 15px);
-  opacity: 0;
-}
-
-.fade-move-enter-active,
-.fade-move-leave-active {
-  transition: all 0.8s ease;
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.8s ease;
+  }
 }
 </style>
