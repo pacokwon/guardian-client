@@ -20,6 +20,7 @@ export default Vue.extend({
 <style lang="scss">
 :root {
   --guardian-primary: var(--primary);
+  --guardian-grey-50: #fafafa;
 }
 
 #app {
