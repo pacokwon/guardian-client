@@ -8,10 +8,14 @@
       <section>
         <div class="history-row-header">
           <b-button-group>
-            <b-button class="pagination-button">
+            <b-button class="pagination-button" disabled>
               <b-icon-chevron-left />
             </b-button>
-            <b-button class="pagination-button">
+            <b-button
+              class="pagination-button"
+              :disabled="!hasNextPage"
+              @click="$emit('next-page')"
+            >
               <b-icon-chevron-right />
             </b-button>
           </b-button-group>
@@ -59,6 +63,10 @@ export default Vue.extend({
       type: Array as PropType<UserPetHistory[]>,
       required: true,
       default: []
+    },
+    hasNextPage: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -110,11 +118,12 @@ button.pagination-button {
   /* override bootstrap styles for reduced button size */
   --point-color: #8a90eb;
   --active-color: #767de8;
+  --border-color: #a7abeb;
 
   padding: 0.2rem 0.5rem;
   font-size: 0.6rem;
   color: var(--point-color);
-  border-color: var(--point-color);
+  border-color: var(--border-color);
   background-color: white;
 
   &:hover:enabled {
@@ -124,7 +133,7 @@ button.pagination-button {
 
   &:active:enabled {
     background-color: var(--active-color) !important;
-    border-color: var(--active-color) !important;
+    border-color: var(--border-color) !important;
     color: white;
   }
 

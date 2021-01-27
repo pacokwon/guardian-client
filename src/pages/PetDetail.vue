@@ -12,6 +12,8 @@
       class="pet-detail--history"
       :history="userHistory"
       :petNickname="nickname"
+      :hasNextPage="historyHasNextPage"
+      @next-page="fetchNextPage"
     />
   </div>
 </template>
@@ -46,7 +48,9 @@ export default Vue.extend({
       species: '',
       imageUrl: 'https://via.placeholder.com/300', // default placeholder
       guardian: null,
-      userHistory: [] as UserPetHistory[]
+      userHistory: [] as UserPetHistory[],
+      historyCursor: null as null | string,
+      historyHasNextPage: true
     };
   },
   async mounted() {
@@ -64,7 +68,11 @@ export default Vue.extend({
               id
               nickname
             }
-            userHistory {
+            userHistory(first: 2) {
+              pageInfo {
+                hasNextPage
+                endCursor
+              }
               edges {
                 node {
                   id
@@ -102,6 +110,67 @@ export default Vue.extend({
         };
       }
     );
+
+    const { hasNextPage, endCursor } =
+      result?.data?.pet?.userHistory?.pageInfo || {};
+    this.historyHasNextPage = hasNextPage;
+    this.historyCursor = endCursor;
+    console.log(this.historyCursor);
+    console.log(this.historyHasNextPage);
+  },
+  methods: {
+    async fetchNextPage() {
+      console.log(this.historyCursor);
+      const { petID } = this.$route.params;
+      const result = await this.$apollo.query({
+        query: gql`
+          query($petID: ID!, $cursor: String) {
+            pet(id: $petID) {
+              id
+              userHistory(first: 2, after: $cursor) {
+                pageInfo {
+                  hasNextPage
+                  endCursor
+                }
+                edges {
+                  node {
+                    id
+                    user {
+                      id
+                      nickname
+                    }
+                    releasedAt
+                    registeredAt
+                    released
+                  }
+                }
+              }
+            }
+          }
+        `,
+        variables: {
+          petID: petID.toString(),
+          cursor: this.historyCursor
+        }
+      });
+
+      const { userHistory = [] } = result?.data?.pet || {};
+      const { hasNextPage, endCursor } =
+        result?.data?.pet?.userHistory?.pageInfo || {};
+
+      this.userHistory = (userHistory?.edges || []).map(
+        ({ node }: Node<UserPetHistoryInput>) => {
+          const { releasedAt, registeredAt, ...rest } = node;
+          return {
+            releasedAt: new Date(releasedAt),
+            registeredAt: new Date(registeredAt),
+            ...rest
+          };
+        }
+      );
+      this.historyHasNextPage = hasNextPage;
+      this.historyCursor = endCursor;
+    }
   }
 });
 </script>
