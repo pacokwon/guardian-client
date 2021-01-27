@@ -133,7 +133,7 @@ export default Vue.extend({
     border: 1px solid cyan;
   }
 
-  @media (max-width: 576px) {
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-areas:
       'profile'
