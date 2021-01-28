@@ -11,7 +11,7 @@
             <b-button
               class="pagination-button"
               :disabled="page === 1 && !hasNextPage"
-              @click="requestNextPage"
+              @click="fetchNextPage"
             >
               <b-icon-chevron-right />
             </b-button>
@@ -45,39 +45,123 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue';
+import Vue from 'vue';
+import gql from 'graphql-tag';
 import { getAvatarUrlFromID } from '@/utils';
-import { UserPetHistory } from '@/types';
+import { UserPetHistory, Node } from '@/types';
+
+type UserPetHistoryInput = Omit<
+  UserPetHistory,
+  'releasedAt' | 'registeredAt'
+> & {
+  releasedAt: string; // ISO String
+  registeredAt: string; // ISO String
+};
+
+const fetchHistoryQuery = gql`
+  query($petID: ID!, $first: Int!, $cursor: String) {
+    pet(id: $petID) {
+      id
+      userHistory(first: $first, after: $cursor) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        edges {
+          node {
+            id
+            user {
+              id
+              nickname
+            }
+            releasedAt
+            registeredAt
+            released
+          }
+        }
+      }
+    }
+  }
+`;
 
 export default Vue.extend({
   name: 'pet-guardian-history',
   props: {
-    petNickname: {
+    petID: {
       type: String,
       required: true
     },
-    history: {
-      type: Array as PropType<UserPetHistory[]>,
-      required: true,
-      default: []
-    },
-    hasNextPage: {
-      type: Boolean,
-      default: false
+    petNickname: {
+      type: String,
+      required: true
     }
   },
   data() {
     return {
-      page: 1
+      page: 1,
+      pageSize: 4,
+      cursor: null as null | string,
+      hasNextPage: true,
+      history: [] as UserPetHistory[]
     };
+  },
+  async mounted() {
+    const { petID } = this;
+    const result = await this.$apollo.query({
+      query: fetchHistoryQuery,
+      variables: { petID, first: this.pageSize }
+    });
+
+    const { userHistory = [] } = result?.data?.pet || {};
+    this.history = (userHistory?.edges || []).map(
+      ({ node }: Node<UserPetHistoryInput>) => {
+        const { releasedAt, registeredAt, ...rest } = node;
+        return {
+          releasedAt: new Date(releasedAt),
+          registeredAt: new Date(registeredAt),
+          ...rest
+        };
+      }
+    );
+
+    const { hasNextPage, endCursor } =
+      result?.data?.pet?.userHistory?.pageInfo || {};
+    this.hasNextPage = hasNextPage;
+    this.cursor = endCursor;
   },
   methods: {
     avatarURL(id: string) {
       return getAvatarUrlFromID(id);
     },
-    requestNextPage() {
+    async fetchNextPage() {
       this.page = this.hasNextPage ? this.page + 1 : 1;
-      this.$emit('next-page');
+
+      const { petID } = this;
+      const result = await this.$apollo.query({
+        query: fetchHistoryQuery,
+        variables: {
+          petID,
+          first: this.pageSize,
+          cursor: this.hasNextPage ? this.cursor : undefined
+        }
+      });
+
+      const { userHistory = [] } = result?.data?.pet || {};
+      this.history = (userHistory?.edges || []).map(
+        ({ node }: Node<UserPetHistoryInput>) => {
+          const { releasedAt, registeredAt, ...rest } = node;
+          return {
+            releasedAt: new Date(releasedAt),
+            registeredAt: new Date(registeredAt),
+            ...rest
+          };
+        }
+      );
+
+      const { hasNextPage, endCursor } =
+        result?.data?.pet?.userHistory?.pageInfo || {};
+      this.hasNextPage = hasNextPage;
+      this.cursor = endCursor;
     }
   }
 });

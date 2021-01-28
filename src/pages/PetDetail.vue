@@ -8,12 +8,12 @@
       :species="species"
     />
     <pet-guardian class="pet-detail--guardian" :guardian="guardian" />
+    <b-spinner v-if="petInfoLoading" variant="primary" type="grow" />
     <pet-guardian-history
+      v-else
       class="pet-detail--history"
-      :history="userHistory"
+      :petID="id"
       :petNickname="nickname"
-      :hasNextPage="historyHasNextPage"
-      @next-page="fetchNextPage"
     />
   </div>
 </template>
@@ -21,18 +21,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import gql from 'graphql-tag';
-import { UserPetHistory, Node } from '@/types';
 import PetProfile from '@/components/PetProfile.vue';
 import PetGuardian from '@/components/PetGuardian.vue';
 import PetGuardianHistory from '@/components/PetGuardianHistory.vue';
-
-type UserPetHistoryInput = Omit<
-  UserPetHistory,
-  'releasedAt' | 'registeredAt'
-> & {
-  releasedAt: string; // ISO String
-  registeredAt: string; // ISO String
-};
 
 export default Vue.extend({
   name: 'pet-detail',
@@ -48,9 +39,7 @@ export default Vue.extend({
       species: '',
       imageUrl: 'https://via.placeholder.com/300', // default placeholder
       guardian: null,
-      userHistory: [] as UserPetHistory[],
-      historyCursor: null as null | string,
-      historyHasNextPage: true
+      petInfoLoading: true
     };
   },
   async mounted() {
@@ -68,31 +57,13 @@ export default Vue.extend({
               id
               nickname
             }
-            userHistory(first: 2) {
-              pageInfo {
-                hasNextPage
-                endCursor
-              }
-              edges {
-                node {
-                  id
-                  user {
-                    id
-                    nickname
-                  }
-                  releasedAt
-                  registeredAt
-                  released
-                }
-              }
-            }
           }
         }
       `,
-      variables: { petID: petID.toString() }
+      variables: { petID }
     });
 
-    const { id, nickname, species, imageUrl, guardian, userHistory } =
+    const { id, nickname, species, imageUrl, guardian } =
       result?.data?.pet || {};
 
     this.id = id;
@@ -100,74 +71,8 @@ export default Vue.extend({
     this.species = species;
     this.imageUrl = imageUrl;
     this.guardian = guardian;
-    this.userHistory = (userHistory?.edges || []).map(
-      ({ node }: Node<UserPetHistoryInput>) => {
-        const { releasedAt, registeredAt, ...rest } = node;
-        return {
-          releasedAt: new Date(releasedAt),
-          registeredAt: new Date(registeredAt),
-          ...rest
-        };
-      }
-    );
 
-    const { hasNextPage, endCursor } =
-      result?.data?.pet?.userHistory?.pageInfo || {};
-    this.historyHasNextPage = hasNextPage;
-    this.historyCursor = endCursor;
-  },
-  methods: {
-    async fetchNextPage() {
-      const { petID } = this.$route.params;
-      const result = await this.$apollo.query({
-        query: gql`
-          query($petID: ID!, $cursor: String) {
-            pet(id: $petID) {
-              id
-              userHistory(first: 2, after: $cursor) {
-                pageInfo {
-                  hasNextPage
-                  endCursor
-                }
-                edges {
-                  node {
-                    id
-                    user {
-                      id
-                      nickname
-                    }
-                    releasedAt
-                    registeredAt
-                    released
-                  }
-                }
-              }
-            }
-          }
-        `,
-        variables: {
-          petID: petID.toString(),
-          cursor: this.historyHasNextPage ? this.historyCursor : undefined
-        }
-      });
-
-      const { userHistory = [] } = result?.data?.pet || {};
-      const { hasNextPage, endCursor } =
-        result?.data?.pet?.userHistory?.pageInfo || {};
-
-      this.userHistory = (userHistory?.edges || []).map(
-        ({ node }: Node<UserPetHistoryInput>) => {
-          const { releasedAt, registeredAt, ...rest } = node;
-          return {
-            releasedAt: new Date(releasedAt),
-            registeredAt: new Date(registeredAt),
-            ...rest
-          };
-        }
-      );
-      this.historyHasNextPage = hasNextPage;
-      this.historyCursor = endCursor;
-    }
+    this.petInfoLoading = false;
   }
 });
 </script>

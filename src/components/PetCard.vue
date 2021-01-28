@@ -28,8 +28,7 @@ export default Vue.extend({
     species: { type: String, required: true },
     imageUrl: { type: String, required: true },
     guardian: {
-      type: Object as PropType<User | null>,
-      required: true
+      type: Object as PropType<User | null>
     }
   },
   methods: {
