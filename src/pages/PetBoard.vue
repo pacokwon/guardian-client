@@ -39,6 +39,7 @@ export default Vue.extend({
                 species
                 imageUrl
                 guardian {
+                  id
                   nickname
                 }
               }
