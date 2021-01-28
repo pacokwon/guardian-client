@@ -1,3 +1,7 @@
+export interface GuardianState {
+  userID: string | null;
+}
+
 export interface Pet {
   id: string;
   nickname: string;
