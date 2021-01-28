@@ -1,20 +1,25 @@
 <template>
   <div class="pet-detail">
-    <pet-profile
-      class="pet-detail--profile"
-      :id="id"
-      :imageUrl="imageUrl"
-      :nickname="nickname"
-      :species="species"
-    />
-    <pet-guardian class="pet-detail--guardian" :guardian="guardian" />
+    <transition name="fade-move" appear>
+      <pet-profile
+        class="pet-detail--profile"
+        :id="id"
+        :imageUrl="imageUrl"
+        :nickname="nickname"
+        :species="species"
+      />
+    </transition>
+    <transition name="fade-move" appear>
+      <pet-guardian class="pet-detail--guardian" :guardian="guardian" />
+    </transition>
     <b-spinner v-if="petInfoLoading" variant="primary" type="grow" />
-    <pet-guardian-history
-      v-else
-      class="pet-detail--history"
-      :petID="id"
-      :petNickname="nickname"
-    />
+    <transition v-else name="fade-move" appear>
+      <pet-guardian-history
+        class="pet-detail--history"
+        :petID="id"
+        :petNickname="nickname"
+      />
+    </transition>
   </div>
 </template>
 
@@ -91,17 +96,14 @@ export default Vue.extend({
 
   &--profile {
     grid-area: profile;
-    border: 1px solid black;
   }
 
   &--guardian {
     grid-area: guardian;
-    border: 1px solid tomato;
   }
 
   &--history {
     grid-area: history;
-    border: 1px solid cyan;
   }
 
   @media (max-width: 768px) {
