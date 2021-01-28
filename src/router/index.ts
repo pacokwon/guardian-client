@@ -21,6 +21,12 @@ const routes: Array<RouteConfig> = [
     name: 'PetDetail',
     component: () =>
       import(/* webpackChunkName: "pet-detail" */ '../pages/PetDetail.vue')
+  },
+  {
+    path: '/users/:userID',
+    name: 'UserDetail',
+    component: () =>
+      import(/* webpackChunkName: "user-detail" */ '../pages/UserDetail.vue')
   }
 ];
 
