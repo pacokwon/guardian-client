@@ -1,15 +1,17 @@
 <template>
-  <transition name="fade-move" appear>
+  <transition name="fade" appear>
     <b-card no-body :title="nickname" class="pet-card">
       <b-card-img :src="imageUrl" :alt="`image of ${nickname}`" top />
       <b-card-body @click="navigateToDetail">
-        <div v-if="guardian !== null">
-          This pet is a {{ species }}, and its name is {{ nickname }}, and its
-          guardian is {{ guardian.nickname }}
-        </div>
-        <div v-else>
-          This pet is a {{ species }}, and its name is {{ nickname }}, and it
-          does not have a guardian
+        <h3>{{ nickname }}</h3>
+        <div class="pet-info-row">
+          <species-badge :species="species" />
+          <b-img
+            v-if="guardian !== null"
+            thumbnail
+            rounded="circle"
+            :src="avatarURL(guardian.id)"
+          />
         </div>
       </b-card-body>
     </b-card>
@@ -19,9 +21,14 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue';
 import { User } from '@/types';
+import { getAvatarUrlFromID } from '@/utils';
+import SpeciesBadge from '@/components/SpeciesBadge.vue';
 
 export default Vue.extend({
   name: 'pet-card',
+  components: {
+    SpeciesBadge
+  },
   props: {
     id: { type: String, required: true },
     nickname: { type: String, required: true },
@@ -34,6 +41,9 @@ export default Vue.extend({
   methods: {
     navigateToDetail() {
       this.$router.push(`/pets/${this.id}`);
+    },
+    avatarURL(id: string) {
+      return getAvatarUrlFromID(id);
     }
   }
 });
@@ -41,10 +51,34 @@ export default Vue.extend({
 
 <style scoped>
 .pet-card {
+  box-shadow: 1px 3px 8px -3px gray;
   max-width: 300px;
+  transition: transform 0.4s ease;
+
+  &:hover {
+    transform: translate(0, -8px);
+  }
 
   & .card-body:hover {
     cursor: pointer;
+  }
+
+  & .card-body > h3 {
+    text-transform: capitalize;
+    text-align: center;
+  }
+}
+
+.pet-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+
+  & > img {
+    height: 40px;
+    width: 40px;
+    margin-left: 12px;
   }
 }
 </style>
