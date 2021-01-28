@@ -41,9 +41,8 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-/* b-card */
 div.card {
-  background-color: var(--guardian-grey-50);
+  box-shadow: 1px 3px 8px -3px gray;
 }
 
 .guardian-row {

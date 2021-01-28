@@ -39,7 +39,7 @@ img {
 /* b-card */
 div.card {
   align-items: center;
-  background-color: var(--guardian-grey-50);
+  box-shadow: 1px 3px 8px -3px gray;
 }
 
 /* b-card-body */

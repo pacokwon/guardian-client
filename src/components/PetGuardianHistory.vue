@@ -36,7 +36,7 @@
           </div>
           <div class="duration" v-else>
             {{ registeredAt.toISOString().slice(0, 10) }} ~
-            <strong>Current</strong>
+            <strong style="color: var(--guardian-primary)">Current</strong>
           </div>
         </div>
       </section>
@@ -168,6 +168,10 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+div.card {
+  box-shadow: 1px 3px 8px -3px gray;
+}
+
 h4.card-title {
   margin-bottom: 32px;
 }
@@ -192,6 +196,10 @@ div.history-row-header {
   & .nickname {
     text-transform: capitalize;
   }
+
+  & .duration {
+    font-size: 0.9rem;
+  }
 }
 
 div.history-row-header {
@@ -199,8 +207,11 @@ div.history-row-header {
 }
 
 div.history-row {
+  transition: transform 0.2s ease;
+
   &:hover {
-    background-color: #f7f7f7;
+    background-color: #f9f9f9;
+    transform: translate(0, -3px);
   }
 }
 
