@@ -8,13 +8,10 @@
       <section>
         <div class="history-row-header">
           <b-button-group>
-            <b-button class="pagination-button" disabled>
-              <b-icon-chevron-left />
-            </b-button>
             <b-button
               class="pagination-button"
-              :disabled="!hasNextPage"
-              @click="$emit('next-page')"
+              :disabled="page === 1 && !hasNextPage"
+              @click="requestNextPage"
             >
               <b-icon-chevron-right />
             </b-button>
@@ -69,9 +66,18 @@ export default Vue.extend({
       default: false
     }
   },
+  data() {
+    return {
+      page: 1
+    };
+  },
   methods: {
     avatarURL(id: string) {
       return getAvatarUrlFromID(id);
+    },
+    requestNextPage() {
+      this.page = this.hasNextPage ? this.page + 1 : 1;
+      this.$emit('next-page');
     }
   }
 });

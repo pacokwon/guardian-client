@@ -115,12 +115,9 @@ export default Vue.extend({
       result?.data?.pet?.userHistory?.pageInfo || {};
     this.historyHasNextPage = hasNextPage;
     this.historyCursor = endCursor;
-    console.log(this.historyCursor);
-    console.log(this.historyHasNextPage);
   },
   methods: {
     async fetchNextPage() {
-      console.log(this.historyCursor);
       const { petID } = this.$route.params;
       const result = await this.$apollo.query({
         query: gql`
@@ -150,7 +147,7 @@ export default Vue.extend({
         `,
         variables: {
           petID: petID.toString(),
-          cursor: this.historyCursor
+          cursor: this.historyHasNextPage ? this.historyCursor : undefined
         }
       });
 
