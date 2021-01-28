@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
+// eslint-disable-next-line
+// @ts-ignore
+import { VueMasonryPlugin } from 'vue-masonry';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import '@/assets/styles.scss';
 
@@ -11,6 +14,7 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueApollo);
+Vue.use(VueMasonryPlugin);
 
 new Vue({
   router,

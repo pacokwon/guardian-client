@@ -1,8 +1,21 @@
 <template>
-  <div>
-    <div v-for="pet in petsList" :key="pet.id">
-      <pet-card v-bind="pet" />
-    </div>
+  <div
+    class="masonry-container"
+    v-masonry
+    transition-duration="0.4s"
+    gutter="20"
+    item-selector=".masonry-item"
+    column-width="300"
+    fit-width="true"
+  >
+    <pet-card
+      v-masonry-tile
+      v-for="pet in petsList"
+      :key="pet.id"
+      v-bind="pet"
+      class="masonry-item"
+      style="margin-bottom: 20px;"
+    />
   </div>
 </template>
 
@@ -23,8 +36,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      petsList: [] as PetWithGuardian[],
-      result: 'hello world'
+      petsList: [] as PetWithGuardian[]
     };
   },
   async mounted() {
@@ -55,3 +67,9 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style scoped>
+div.masonry-container {
+  margin: 0 auto;
+}
+</style>
