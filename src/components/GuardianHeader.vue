@@ -15,6 +15,7 @@ import Vue from 'vue';
 import PetLogo from '@/assets/pet.svg';
 
 export default Vue.extend({
+  name: 'guardian-header',
   components: {
     PetLogo
   },
@@ -29,7 +30,7 @@ export default Vue.extend({
   align-items: flex-end;
   display: flex;
   min-height: 5rem;
-  padding: 30px;
+  padding: 30px 20px;
 }
 
 .router-link {
