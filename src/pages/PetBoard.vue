@@ -154,7 +154,7 @@ export default Vue.extend({
       this.petsList.push(...extraPets);
     },
     navigateToRegisterPet() {
-      this.$router.push('/pets/register')
+      this.$router.push('/pets/register');
     }
   }
 });

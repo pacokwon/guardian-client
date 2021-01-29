@@ -23,6 +23,14 @@ const routes: Array<RouteConfig> = [
       import(/* webpackChunkName: "pet-board" */ '../pages/PetBoard.vue')
   },
   {
+    path: '/users/register',
+    name: 'UserRegister',
+    component: () =>
+      import(
+        /* webpackChunkName: "user-register" */ '../pages/UserRegister.vue'
+      )
+  },
+  {
     path: '/users/:userID',
     name: 'UserDetail',
     component: () =>
@@ -36,7 +44,7 @@ const routes: Array<RouteConfig> = [
         /* webpackChunkName: "guardian-home" */ '../pages/GuardianHome.vue'
       )
   }
-]
+];
 
 const router = new VueRouter({
   mode: 'history',
