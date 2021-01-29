@@ -49,7 +49,7 @@ export default Vue.extend({
       userInfoLoading: true
     };
   },
-  async mounted() {
+  async created() {
     const { userID } = this.$route.params;
 
     const result = await this.$apollo.query({

@@ -47,7 +47,7 @@ export default Vue.extend({
       petInfoLoading: true
     };
   },
-  async mounted() {
+  async created() {
     const { petID } = this.$route.params;
 
     const result = await this.$apollo.query({

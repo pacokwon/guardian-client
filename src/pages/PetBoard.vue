@@ -73,7 +73,7 @@ export default Vue.extend({
       cardWidth: 250
     };
   },
-  async mounted() {
+  async created() {
     // send without cursor, to fetch from the start
     const result = await this.$apollo.query({
       query: petListQuery

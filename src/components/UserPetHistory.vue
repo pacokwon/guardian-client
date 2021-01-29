@@ -106,7 +106,7 @@ export default Vue.extend({
       history: [] as UserPetHistory[]
     };
   },
-  async mounted() {
+  async created() {
     const { userID } = this;
     const result = await this.$apollo.query({
       query: fetchHistoryQuery,
