@@ -4,9 +4,9 @@
       class="masonry-container"
       v-masonry
       transition-duration="0.4s"
-      gutter="20"
+      gutter="15"
       item-selector=".masonry-item"
-      column-width="300"
+      :column-width="cardWidth"
       fit-width="true"
     >
       <pet-card
@@ -16,6 +16,7 @@
         v-bind="pet"
         class="masonry-item"
         style="margin-bottom: 20px;"
+        :style="{ width: `${cardWidth}px` }"
       />
     </div>
     <b-spinner v-if="fetching" variant="primary" type="grow" />
@@ -68,7 +69,8 @@ export default Vue.extend({
       petsList: [] as PetWithGuardian[],
       endCursor: null as null | string,
       hasNextPage: true,
-      fetching: false
+      fetching: false,
+      cardWidth: 250
     };
   },
   async mounted() {

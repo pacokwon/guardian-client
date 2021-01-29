@@ -52,7 +52,6 @@ export default Vue.extend({
 <style scoped>
 .pet-card {
   box-shadow: 1px 3px 8px -3px gray;
-  width: 300px;
   transition: transform 0.4s ease;
 
   &:hover {
