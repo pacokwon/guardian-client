@@ -13,9 +13,6 @@
         :current-pets="currentPets"
       />
     </transition>
-    <div class="user-detail--history">
-      bar
-    </div>
     <b-spinner v-if="userInfoLoading" variant="primary" type="grow" />
     <transition v-else name="fade-move" appear>
       <user-pet-history
@@ -113,6 +110,16 @@ div.user-detail {
 
   &--history {
     grid-area: history;
+  }
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+      'profile  profile  history history'
+      'profile  profile  history history'
+      'profile  profile  history history'
+      'pets     pets     history history'
+      'pets     pets     history history';
   }
 
   @media (max-width: 768px) {
