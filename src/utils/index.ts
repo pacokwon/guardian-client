@@ -7,6 +7,6 @@ export const getAltImage = (seed: number | string) =>
 
 // NOTE: might not be totally random, but good enough for our purposes
 export const getRandomString = (): string =>
-  Math.random()   // random float number
+  Math.random() // random float number
     .toString(36) // toString with radix 36 (0-9 + A-Za-z)
-    .slice(2);    // slice the "0." at front
+    .slice(2); // slice the "0." at front

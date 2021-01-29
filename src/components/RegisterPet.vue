@@ -2,28 +2,54 @@
   <section class="register-container">
     <div class="form-container">
       <div class="form">
-        <b-input
-          v-model="nickname"
-          type="text"
-          placeholder="Nickname"
-          :state="validState.nickname && null"
-          @blur="validateNickname"
-        />
-        <b-input
-          v-model="imageUrl"
-          type="text"
-          placeholder="Image URL (Public)"
-          :state="validState.imageUrl && null"
-          @focus="$event.target.select()"
-          @blur="validateURL"
-        />
-        <b-select
-          v-model="species"
-          :options="speciesOptions"
-          :state="validState.species && null"
-          @change="validateSpecies"
-        />
-        <b-button @click="handleRegister">Register!</b-button>
+        <b-row class="my-2">
+          <b-col sm="2" md="3" class="label-container">
+            <label for="pet-nickname">Nickname</label>
+          </b-col>
+          <b-col sm="10" md="9">
+            <b-input
+              id="pet-nickname"
+              v-model="nickname"
+              type="text"
+              placeholder="Nickname"
+              :state="validState.nickname && null"
+              @blur="validateNickname"
+            />
+          </b-col>
+        </b-row>
+        <b-row class="my-2">
+          <b-col sm="2" md="3" class="label-container">
+            <label for="pet-image">Image URL</label>
+          </b-col>
+          <b-col sm="10" md="9">
+            <b-input
+              id="pet-image"
+              v-model="imageUrl"
+              type="text"
+              placeholder="Image URL (Public)"
+              :state="validState.imageUrl && null"
+              @focus="$event.target.select()"
+              @blur="validateURL"
+            />
+          </b-col>
+        </b-row>
+        <b-row class="my-2">
+          <b-col sm="2" md="3" class="label-container">
+            <label for="pet-species">Species</label>
+          </b-col>
+          <b-col sm="10" md="9">
+            <b-select
+              id="pet-species"
+              v-model="species"
+              :options="speciesOptions"
+              :state="validState.species && null"
+              @change="validateSpecies"
+            />
+          </b-col>
+        </b-row>
+        <b-button class="submit-button" @click="handleRegister">
+          Register!
+        </b-button>
       </div>
     </div>
     <div class="preview">
@@ -133,7 +159,6 @@ export default Vue.extend({
     },
     clearForm() {
       this.nickname = '';
-      this.imageUrl = getAltImage(getRandomString());
       this.species = null;
     },
     setDefaultImage(event: ErrorEvent) {
@@ -148,10 +173,24 @@ export default Vue.extend({
 section.register-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-areas: 'register-form preview';
   align-items: center;
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'preview'
+      'register-form';
+
+      & > div.preview {
+        margin-bottom: 32px;
+      }
+  }
 }
 
 div.form-container {
+  grid-area: register-form;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -165,6 +204,8 @@ div.form {
 }
 
 div.preview {
+  grid-area: preview;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -172,5 +213,25 @@ div.preview {
   & > img {
     max-width: 300px;
   }
+}
+
+div.label-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & > label {
+    margin: 0;
+    text-align: center;
+  }
+}
+
+button.submit-button {
+  align-self: center;
+  margin-top: 12px;
+  background-color: var(--guardian-primary);
+
+  max-width: 500px;
+  width: 95%;
 }
 </style>
