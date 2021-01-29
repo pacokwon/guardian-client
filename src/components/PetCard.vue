@@ -1,7 +1,12 @@
 <template>
   <transition name="fade" appear>
     <b-card no-body :title="nickname" class="pet-card">
-      <b-card-img :src="imageUrl" :alt="`image of ${nickname}`" top />
+      <b-card-img
+        top
+        :src="imageUrl"
+        :alt="`image of ${nickname}`"
+        @error="setAltImage"
+      />
       <b-card-body @click="navigateToDetail">
         <h3>{{ nickname }}</h3>
         <div class="pet-info-row">
@@ -21,7 +26,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue';
 import { User } from '@/types';
-import { getAvatarUrlFromID } from '@/utils';
+import { getAvatarUrlFromID, getAltImage } from '@/utils';
 import SpeciesBadge from '@/components/SpeciesBadge.vue';
 
 export default Vue.extend({
@@ -44,6 +49,9 @@ export default Vue.extend({
     },
     avatarURL(id: string) {
       return getAvatarUrlFromID(id);
+    },
+    setAltImage(event: ErrorEvent) {
+      (event.target as HTMLImageElement).src = getAltImage(this.id);
     }
   }
 });

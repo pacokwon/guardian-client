@@ -17,7 +17,13 @@
           } in currentPets"
           :key="id"
         >
-          <b-img thumbnail rounded="circle" class="pet-image" :src="imageUrl" />
+          <b-img
+            thumbnail
+            rounded="circle"
+            class="pet-image"
+            :src="imageUrl"
+            @error="setAltImage(id)"
+          />
           <div class="info">
             <div>{{ nickname }}</div>
             <species-badge :species="species" />
@@ -33,6 +39,7 @@
 import Vue, { PropType } from 'vue';
 import { Pet } from '@/types';
 import SpeciesBadge from '@/components/SpeciesBadge.vue';
+import { getAltImage } from '@/utils';
 
 type PetWithRegisteredAt = Pet & { registeredAt: string };
 
@@ -45,6 +52,13 @@ export default Vue.extend({
     currentPets: {
       type: Array as PropType<PetWithRegisteredAt[]>,
       default: []
+    }
+  },
+  methods: {
+    setAltImage(id: string) {
+      return (event: ErrorEvent) => {
+        (event.target as HTMLImageElement).src = getAltImage(id);
+      };
     }
   }
 });

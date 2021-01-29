@@ -1,7 +1,7 @@
 <template>
   <b-card no-body>
     <b-card-body>
-      <b-img rounded="circle" :src="imageUrl" />
+      <b-img rounded="circle" :src="imageUrl" @error="setAltImage" />
       <h2 class="nickname">
         {{ nickname }}
       </h2>
@@ -13,6 +13,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import SpeciesBadge from '@/components/SpeciesBadge.vue';
+import { getAltImage } from '@/utils';
 
 export default Vue.extend({
   name: 'pet-profile',
@@ -24,6 +25,11 @@ export default Vue.extend({
     nickname: { type: String, required: true },
     species: { type: String, required: true },
     imageUrl: { type: String, required: true }
+  },
+  methods: {
+    setAltImage(event: ErrorEvent) {
+      (event.target as HTMLImageElement).src = getAltImage(this.id);
+    }
   }
 });
 </script>
