@@ -1,64 +1,71 @@
 <template>
-  <section class="register-container">
-    <div class="form-container">
-      <div class="form">
-        <b-row class="my-2">
-          <b-col sm="2" md="3" class="label-container">
-            <label for="pet-nickname">Nickname</label>
-          </b-col>
-          <b-col sm="10" md="9">
-            <b-input
-              id="pet-nickname"
-              v-model="nickname"
-              type="text"
-              placeholder="Nickname"
-              :state="validState.nickname && null"
-              @blur="validateNickname"
-            />
-          </b-col>
-        </b-row>
-        <b-row class="my-2">
-          <b-col sm="2" md="3" class="label-container">
-            <label for="pet-image">Image URL</label>
-          </b-col>
-          <b-col sm="10" md="9">
-            <b-input
-              id="pet-image"
-              v-model="imageUrl"
-              type="text"
-              placeholder="Image URL (Public)"
-              :state="validState.imageUrl && null"
-              @focus="$event.target.select()"
-              @blur="validateURL"
-            />
-          </b-col>
-        </b-row>
-        <b-row class="my-2">
-          <b-col sm="2" md="3" class="label-container">
-            <label for="pet-species">Species</label>
-          </b-col>
-          <b-col sm="10" md="9">
-            <b-select
-              id="pet-species"
-              v-model="species"
-              :options="speciesOptions"
-              :state="validState.species && null"
-              @change="validateSpecies"
-            />
-          </b-col>
-        </b-row>
-        <b-button class="submit-button" @click="handleRegister">
-          Register!
-        </b-button>
-      </div>
-    </div>
-    <div class="preview">
-      <b-img
-        thumbnail
-        :src="imageUrl"
-        alt="Your pet's image here!"
-        @error="setDefaultImage"
-      />
+  <section>
+    <h1>Register a New Pet</h1>
+    <div class="register-container">
+      <transition name="fade-move" appear>
+        <div class="form-container">
+          <div class="form">
+            <b-row class="my-2">
+              <b-col sm="2" md="3" class="label-container">
+                <label for="pet-nickname">Nickname</label>
+              </b-col>
+              <b-col sm="10" md="9">
+                <b-input
+                  id="pet-nickname"
+                  v-model="nickname"
+                  type="text"
+                  placeholder="Nickname"
+                  :state="validState.nickname && null"
+                  @blur="validateNickname"
+                />
+              </b-col>
+            </b-row>
+            <b-row class="my-2">
+              <b-col sm="2" md="3" class="label-container">
+                <label for="pet-image">Image URL</label>
+              </b-col>
+              <b-col sm="10" md="9">
+                <b-input
+                  id="pet-image"
+                  v-model="imageUrl"
+                  type="text"
+                  placeholder="Image URL (Public)"
+                  :state="validState.imageUrl && null"
+                  @focus="$event.target.select()"
+                  @blur="validateURL"
+                />
+              </b-col>
+            </b-row>
+            <b-row class="my-2">
+              <b-col sm="2" md="3" class="label-container">
+                <label for="pet-species">Species</label>
+              </b-col>
+              <b-col sm="10" md="9">
+                <b-select
+                  id="pet-species"
+                  v-model="species"
+                  :options="speciesOptions"
+                  :state="validState.species && null"
+                  @change="validateSpecies"
+                />
+              </b-col>
+            </b-row>
+            <b-button class="submit-button" @click="handleRegister">
+              Register!
+            </b-button>
+          </div>
+        </div>
+      </transition>
+      <transition name="fade-move" appear>
+        <div class="preview">
+          <b-img
+            thumbnail
+            :src="imageUrl"
+            alt="Your pet's image here!"
+            @error="setDefaultImage"
+          />
+        </div>
+      </transition>
     </div>
   </section>
 </template>
@@ -170,7 +177,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-section.register-container {
+div.register-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-areas: 'register-form preview';
@@ -182,9 +189,9 @@ section.register-container {
       'preview'
       'register-form';
 
-      & > div.preview {
-        margin-bottom: 32px;
-      }
+    & > div.preview {
+      margin-bottom: 32px;
+    }
   }
 }
 
