@@ -129,8 +129,6 @@ export default Vue.extend({
       result?.data?.user?.petHistory?.pageInfo || {};
     this.hasNextPage = hasNextPage;
     this.cursor = endCursor;
-
-    console.log({ hasNextPage });
   },
   methods: {
     async fetchNextPage() {
