@@ -1,5 +1,6 @@
 <template>
   <section class="petboard-container">
+    <h1>All Pets</h1>
     <div
       class="masonry-container"
       v-masonry
@@ -9,6 +10,20 @@
       :column-width="cardWidth"
       fit-width="true"
     >
+      <b-card
+        v-masonry-tile
+        no-body
+        class="masonry-item create"
+        :style="{ width: `${cardWidth}px` }"
+        @click="navigateToRegisterPet"
+      >
+        <div>
+          <b-icon-plus />
+          <span>
+            Add Pet
+          </span>
+        </div>
+      </b-card>
       <pet-card
         v-masonry-tile
         v-for="pet in petsList"
@@ -137,12 +152,20 @@ export default Vue.extend({
       ).map(({ node }: Node<PetWithGuardian>) => ({ ...node }));
 
       this.petsList.push(...extraPets);
+    },
+    navigateToRegisterPet() {
+      this.$router.push('/pets/register')
     }
   }
 });
 </script>
 
 <style scoped>
+h1 {
+  align-self: flex-start;
+  padding: 0 20px 20px 20px;
+}
+
 section.petboard-container {
   display: flex;
   flex-direction: column;
@@ -157,5 +180,42 @@ div.masonry-container {
 span.no-more-message {
   font-size: 1.2rem;
   font-weight: strong;
+}
+
+button.add-pet {
+  align-self: flex-start;
+}
+
+div.card.create {
+  border: 3px dashed var(--guardian-primary);
+  color: var(--guardian-primary);
+  align-items: center;
+  transition: transform 0.4s ease;
+
+  &:hover {
+    cursor: pointer;
+    transform: translate(0, -6px);
+  }
+
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+
+  & svg {
+    font-size: 4rem;
+  }
+
+  & span {
+    font-size: 1.8rem;
+  }
+}
+
+.masonry-item {
+  margin-bottom: 20px;
+}
+
+.register-pet {
+  margin-bottom: 20px;
 }
 </style>

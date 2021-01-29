@@ -5,18 +5,10 @@ Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
-    path: '/',
-    name: 'GuardianHome',
+    path: '/pets/register',
+    name: 'RegisterPet',
     component: () =>
-      import(
-        /* webpackChunkName: "guardian-home" */ '../pages/GuardianHome.vue'
-      )
-  },
-  {
-    path: '/pets',
-    name: 'PetBoard',
-    component: () =>
-      import(/* webpackChunkName: "pet-board" */ '../pages/PetBoard.vue')
+      import(/* webpackChunkName: "register-pet" */ '../pages/RegisterPet.vue')
   },
   {
     path: '/pets/:petID',
@@ -25,12 +17,26 @@ const routes: Array<RouteConfig> = [
       import(/* webpackChunkName: "pet-detail" */ '../pages/PetDetail.vue')
   },
   {
+    path: '/pets',
+    name: 'PetBoard',
+    component: () =>
+      import(/* webpackChunkName: "pet-board" */ '../pages/PetBoard.vue')
+  },
+  {
     path: '/users/:userID',
     name: 'UserDetail',
     component: () =>
       import(/* webpackChunkName: "user-detail" */ '../pages/UserDetail.vue')
+  },
+  {
+    path: '/',
+    name: 'GuardianHome',
+    component: () =>
+      import(
+        /* webpackChunkName: "guardian-home" */ '../pages/GuardianHome.vue'
+      )
   }
-];
+]
 
 const router = new VueRouter({
   mode: 'history',
