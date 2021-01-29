@@ -7,6 +7,9 @@
     <router-link to="/pets" class="router-link">
       All Pets
     </router-link>
+    <a class="router-link my-page" @click="navigateToMyPage">
+      My Page
+    </a>
   </div>
 </template>
 
@@ -19,8 +22,12 @@ export default Vue.extend({
   components: {
     PetLogo
   },
-  data() {
-    return { foo: 'bar' };
+  methods: {
+    navigateToMyPage() {
+      const { userID } = this.$store.state;
+
+      if (userID !== null) this.$router.push(`/users/${userID}`);
+    }
   }
 });
 </script>
@@ -38,6 +45,10 @@ export default Vue.extend({
   font-size: 1.2rem;
   margin-right: 16px;
   text-decoration: none;
+
+  &.my-page:hover {
+    cursor: pointer;
+  }
 }
 
 .logo-container {
