@@ -199,6 +199,7 @@ div.history-row-header {
 
   & .duration {
     font-size: 0.9rem;
+    text-align: center;
   }
 }
 
