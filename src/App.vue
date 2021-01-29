@@ -43,7 +43,7 @@ export default Vue.extend({
 
 @media screen and (min-width: 576px) and (max-width: 767px) {
   :root {
-    --screen-max-width: 520px;
+    --screen-max-width: 560px;
   }
 }
 
