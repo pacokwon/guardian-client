@@ -91,6 +91,23 @@ export default Vue.extend({
   }
 }
 
+.stretch {
+  &-enter,
+  &-leave-to {
+    transform: scaleY(0);
+  }
+
+  &-enter-active,
+  &-leave-active {
+    transition: transform 1s ease;
+  }
+
+  &-enter-to,
+  &-leave {
+    transform: scaleY(1);
+  }
+}
+
 /* --breakpoint-sm: 576px; */
 /* --breakpoint-md: 768px; */
 /* --breakpoint-lg: 992px; */
