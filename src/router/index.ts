@@ -6,9 +6,9 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/pets/register',
-    name: 'RegisterPet',
+    name: 'PetRegister',
     component: () =>
-      import(/* webpackChunkName: "register-pet" */ '../pages/RegisterPet.vue')
+      import(/* webpackChunkName: "register-pet" */ '../pages/PetRegister.vue')
   },
   {
     path: '/pets/:petID',

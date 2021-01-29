@@ -76,7 +76,7 @@ import gql from 'graphql-tag';
 import { getAltImage, getRandomString } from '@/utils';
 
 export default Vue.extend({
-  name: 'register-pet',
+  name: 'pet-register',
   data() {
     return {
       nickname: '',
