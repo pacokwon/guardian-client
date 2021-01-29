@@ -45,9 +45,10 @@ export default Vue.extend({
 
 .router-link {
   color: var(--guardian-primary);
-  font-size: 1.2rem;
-  margin-right: 16px;
+  font-size: calc(0.8rem + 0.5vw);
+  margin-right: 20px;
   text-decoration: none;
+  text-align: center;
 
   &.my-page:hover {
     cursor: pointer;
@@ -60,7 +61,7 @@ export default Vue.extend({
   font-weight: bold;
   font-size: 1.8rem;
   line-height: 1;
-  margin-right: 50px;
+  margin-right: 30px;
 
   & > svg {
     margin-right: 4px;
