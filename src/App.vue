@@ -25,21 +25,21 @@ export default Vue.extend({
 
 @media screen and (min-width: 1200px) {
   :root {
-    --screen-max-width: 940px;
+    --screen-max-width: 1100px;
   }
 }
 
-@media screen and (min-width: 768px) and (max-width: 1199px) {
+@media screen and (min-width: 992px) and (max-width: 1199px) {
   :root {
-    --screen-max-width: 620px;
+    --screen-max-width: 900px;
   }
 }
 
-/* @media screen and (min-width: 768px) and (max-width: 992px) { */
-/*   :root { */
-/*     --screen-max-width: 700px; */
-/*   } */
-/* } */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  :root {
+    --screen-max-width: 700px;
+  }
+}
 
 @media screen and (min-width: 576px) and (max-width: 767px) {
   :root {
