@@ -119,7 +119,7 @@ div.user-detail {
     grid-template-columns: 1fr;
     grid-template-areas:
       'profile'
-      'guardian'
+      'pets'
       'history';
   }
 }
