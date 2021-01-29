@@ -19,8 +19,13 @@ export default Vue.extend({
 
 <style lang="scss">
 :root {
+  /* https://material.io/resources/color/#!/?view.left=0&view.right=0 */
   --guardian-primary: var(--primary);
   --guardian-grey-50: #fafafa;
+  --guardian-grey-100: #f5f5f5;
+  --guardian-grey-200: #eeeeee;
+  --guardian-grey-700: #616161;
+  --guardian-green-400: #66bb6a;
 }
 
 @media screen and (min-width: 1200px) {

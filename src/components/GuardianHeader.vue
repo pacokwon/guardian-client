@@ -10,6 +10,9 @@
     <a class="router-link my-page" @click="navigateToMyPage">
       My Page
     </a>
+    <router-link to="/users/register" class="router-link">
+      Sign Up
+    </router-link>
   </div>
 </template>
 
