@@ -1,11 +1,14 @@
 <template>
   <b-card no-body>
-    <div v-if="editing" class="control-group">
+    <div
+      v-if="editing && updateState === UpdateStatus.FINISHED"
+      class="control-group"
+    >
       <b-button
         class="complete"
         variant="outline-primary"
         pill
-        @click="editing = !editing"
+        @click="requestNicknameUpdate"
       >
         Save Changes
       </b-button>
@@ -13,22 +16,29 @@
         class="cancel"
         variant="outline-primary"
         pill
-        @click="editing = !editing"
+        @click="cancelEditing"
       >
         Cancel
       </b-button>
     </div>
+    <b-spinner v-else-if="editing" variant="primary" type="grow" />
     <b-button
       v-else
       class="edit"
       variant="outline-primary"
-      @click="editing = !editing"
+      @click="toggleEditAndFocus"
     >
       <b-icon-pencil-square />
     </b-button>
     <b-card-body>
       <b-img rounded="circle" :src="avatarURL(id)" />
-      <h2 class="nickname">
+      <input
+        v-if="editing"
+        type="text"
+        v-model="editedNickname"
+        ref="nickname"
+      />
+      <h2 v-else class="nickname">
         {{ nickname }}
       </h2>
     </b-card-body>
@@ -37,7 +47,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import gql from 'graphql-tag';
 import { getAvatarUrlFromID } from '@/utils';
+
+enum UpdateStatus {
+  UPDATING,
+  FINISHED
+}
 
 export default Vue.extend({
   name: 'user-profile',
@@ -47,12 +63,88 @@ export default Vue.extend({
   },
   data() {
     return {
-      editing: false
+      editing: false,
+      editedNickname: this.nickname,
+      UpdateStatus,
+      updateState: UpdateStatus.FINISHED
     };
   },
   methods: {
     avatarURL(id: string) {
       return getAvatarUrlFromID(id);
+    },
+    toggleEditAndFocus() {
+      this.editing = !this.editing;
+
+      this.$nextTick(() => {
+        (this.$refs.nickname as HTMLInputElement).focus();
+        (this.$refs.nickname as HTMLInputElement).select();
+      });
+    },
+    async requestNicknameUpdate() {
+      const { id, editedNickname } = this;
+
+      if (editedNickname === this.nickname) {
+        this.editing = !this.editing;
+
+        this.$bvToast.toast('Nickname did not change', {
+          title: 'Guardian',
+          autoHideDelay: 5000,
+          variant: 'primary'
+        });
+        return;
+      }
+
+      this.updateState = UpdateStatus.UPDATING;
+      const result = await this.$apollo.mutate({
+        mutation: gql`
+          mutation ($id: ID!, $nickname: String!) {
+            updateUser(input: { id: $id, nickname: $nickname }) {
+              id
+              nickname
+            }
+          }
+        `,
+        variables: {
+          id,
+          nickname: editedNickname
+        }
+      });
+
+      await new Promise(res => setTimeout(res, 1000));
+      this.updateState = UpdateStatus.FINISHED;
+
+      if (result?.data?.updateUser?.id) {
+        this.$bvToast.toast('Your nickname has been successfully updated', {
+          title: 'Guardian',
+          autoHideDelay: 5000,
+          variant: 'primary'
+        });
+
+        this.editing = !this.editing;
+        this.$emit('nickname-update', editedNickname);
+      } else {
+        this.$bvToast.toast(
+          'An error has occurred while updating your information',
+          {
+            title: 'Guardian',
+            autoHideDelay: 5000,
+            variant: 'danger'
+          }
+        );
+
+        // revert to initial value
+        this.editedNickname = this.nickname;
+      }
+    },
+    cancelEditing() {
+      this.editedNickname = this.nickname;
+      this.editing = !this.editing;
+    }
+  },
+  watch: {
+    nickname(val: string) {
+      this.editedNickname = val;
     }
   }
 });
@@ -60,8 +152,8 @@ export default Vue.extend({
 
 <style scoped>
 img {
-  min-width: 144px;
-  min-height: 144px;
+  width: 144px;
+  height: 144px;
   margin-bottom: 20px;
 }
 
@@ -74,6 +166,16 @@ div.card {
 
 div.card-body {
   padding-top: 0px;
+
+  & input {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  & input:focus {
+    outline: 0;
+    border: 1px solid var(--guardian-primary);
+  }
 }
 
 /* b-card-body */
@@ -101,6 +203,7 @@ div.control-group {
   display: flex;
   align-self: flex-end;
   margin-top: 15px;
+  margin-bottom: 10px;
   align-items: center;
 
   & > * {
@@ -109,9 +212,14 @@ div.control-group {
 
   & > button.complete {
     background-color: var(--guardian-primary);
-    border: none;
+    border: 1px solid var(--guardian-primary);
     color: white;
     font-size: 0.8rem;
+
+    &:active {
+      background-color: white;
+      color: var(--guardian-primary);
+    }
   }
 
   & > button.cancel {

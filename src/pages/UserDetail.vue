@@ -5,6 +5,7 @@
         class="user-detail--profile"
         :id="id"
         :nickname="nickname"
+        @nickname-update="updateNickname"
       />
     </transition>
     <transition name="fade-move" appear>
@@ -84,6 +85,11 @@ export default Vue.extend({
     );
 
     this.userInfoLoading = false;
+  },
+  methods: {
+    updateNickname(newNickname: string) {
+      this.nickname = newNickname;
+    }
   }
 });
 </script>
