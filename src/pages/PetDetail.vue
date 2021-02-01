@@ -65,8 +65,11 @@ export default Vue.extend({
           }
         }
       `,
-      variables: { petID }
+      variables: { petID },
+      errorPolicy: 'all'
     });
+
+    if (result?.errors) this.$router.push('/not-found');
 
     const { id, nickname, species, imageUrl, guardian } =
       result?.data?.pet || {};

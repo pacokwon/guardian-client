@@ -70,8 +70,11 @@ export default Vue.extend({
           }
         }
       `,
-      variables: { userID }
+      variables: { userID },
+      errorPolicy: 'all'
     });
+
+    if (result?.errors) this.$router.push('/not-found');
 
     const { id, nickname, currentPets } = result?.data?.user || {};
     this.id = id;

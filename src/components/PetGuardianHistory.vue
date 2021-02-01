@@ -107,6 +107,9 @@ export default Vue.extend({
   },
   async created() {
     const { petID } = this;
+
+    if (petID === '') return;
+
     const result = await this.$apollo.query({
       query: fetchHistoryQuery,
       variables: { petID, first: this.pageSize }

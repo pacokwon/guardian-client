@@ -108,6 +108,9 @@ export default Vue.extend({
   },
   async created() {
     const { userID } = this;
+
+    if (userID === '') return;
+
     const result = await this.$apollo.query({
       query: fetchHistoryQuery,
       variables: { userID, first: this.pageSize }
