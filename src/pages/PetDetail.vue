@@ -10,7 +10,12 @@
       />
     </transition>
     <transition name="fade-move" appear>
-      <pet-guardian class="pet-detail--guardian" :guardian="guardian" />
+      <pet-guardian
+        class="pet-detail--guardian"
+        :petID="id"
+        :guardian="guardian"
+        @update:guardian="updateGuardian"
+      />
     </transition>
     <b-spinner v-if="petInfoLoading" variant="primary" type="grow" />
     <transition v-else name="fade-move" appear>
@@ -18,6 +23,7 @@
         class="pet-detail--history"
         :petID="id"
         :petNickname="nickname"
+        :key="historyRerenderFlag"
       />
     </transition>
   </div>
@@ -44,7 +50,8 @@ export default Vue.extend({
       species: '',
       imageUrl: 'https://via.placeholder.com/300', // default placeholder
       guardian: null,
-      petInfoLoading: true
+      petInfoLoading: true,
+      historyRerenderFlag: true // hacky way to rerender history component
     };
   },
   async created() {
@@ -81,6 +88,42 @@ export default Vue.extend({
     this.guardian = guardian;
 
     this.petInfoLoading = false;
+  },
+  methods: {
+    async updateGuardian() {
+      const { petID } = this.$route.params;
+
+      const result = await this.$apollo.query({
+        query: gql`
+          query($petID: ID!) {
+            pet(id: $petID) {
+              id
+              guardian {
+                id
+                nickname
+              }
+            }
+          }
+        `,
+        variables: { petID }
+      });
+
+      if (result?.errors) {
+        this.$bvToast.toast(
+          'An error has occurred while updating guardian information',
+          {
+            title: 'Guardian',
+            autoHideDelay: 5000,
+            variant: 'danger'
+          }
+        );
+
+        return;
+      }
+
+      this.guardian = result?.data?.pet?.guardian;
+      this.historyRerenderFlag = !this.historyRerenderFlag;
+    }
   }
 });
 </script>
