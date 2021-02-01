@@ -4,9 +4,9 @@
       <pet-profile
         class="pet-detail--profile"
         :id="id"
-        :imageUrl="imageUrl"
-        :nickname="nickname"
-        :species="species"
+        :imageUrl.sync="imageUrl"
+        :nickname.sync="nickname"
+        :species.sync="species"
       />
     </transition>
     <transition name="fade-move" appear>
@@ -104,6 +104,16 @@ export default Vue.extend({
 
   &--history {
     grid-area: history;
+  }
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+      'profile  profile  history history'
+      'profile  profile  history history'
+      'profile  profile  history history'
+      'guardian guardian history history'
+      'guardian guardian history history';
   }
 
   @media (max-width: 768px) {
