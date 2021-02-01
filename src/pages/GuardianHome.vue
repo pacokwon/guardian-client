@@ -1,7 +1,11 @@
 <template>
   <div class="home">
-    <h1>Guardian</h1>
-    <user-login-status />
+    <transition name="fade-move" appear>
+      <h1>Guardian</h1>
+    </transition>
+    <transition name="fade-move" appear>
+      <user-login-status />
+    </transition>
   </div>
 </template>
 

@@ -1,8 +1,8 @@
 <template>
-  <transition name="fade-move" appear>
-    <section>
-      <h1>Sign Up</h1>
-      <div class="register-container">
+  <section>
+    <h1>Sign Up</h1>
+    <div class="register-container">
+      <transition name="fade-move" appear>
         <div class="form-container">
           <div class="form">
             <b-row class="my-2">
@@ -25,6 +25,8 @@
             </b-button>
           </div>
         </div>
+      </transition>
+      <transition name="fade-move" appear>
         <div class="preview">
           <div v-if="loadState === LoadState.NOT_SENT" class="placeholder">
             Your avatar will be shown here!
@@ -49,9 +51,9 @@
             </div>
           </transition>
         </div>
-      </div>
-    </section>
-  </transition>
+      </transition>
+    </div>
+  </section>
 </template>
 
 <script lang="ts">
