@@ -26,6 +26,7 @@ export default Vue.extend({
   --guardian-grey-200: #eeeeee;
   --guardian-grey-700: #616161;
   --guardian-green-400: #66bb6a;
+  --guardian-red-400: #ef5350;
 }
 
 @media screen and (min-width: 1200px) {
