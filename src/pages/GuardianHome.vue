@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import UserLoginStatus from '@/components/UserLoginStatus'
+import UserLoginStatus from '@/components/UserLoginStatus.vue'
 
 export default Vue.extend({
   name: 'guardian-home',

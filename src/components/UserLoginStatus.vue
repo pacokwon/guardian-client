@@ -38,6 +38,14 @@
         Confirm
       </b-button>
     </div>
+    <div v-else-if="isUserLoggedIn" class="confirm-group">
+      <div class="confirm-message">
+        Log out?
+      </div>
+      <b-button class="confirm" @click="requestLogout">
+        Log Out
+      </b-button>
+    </div>
   </section>
 </template>
 
@@ -123,10 +131,15 @@ export default Vue.extend({
       return this.$store.state.userID === id;
     },
     selectUser(index: number) {
-      if (this.isCurrentUser(this.users[index].id)) this.selectedIndex = null;
+      // user is logged in as the selected user OR user selected an already selected user
+      if (
+        this.isCurrentUser(this.users[index].id) ||
+        this.selectedIndex === index
+      )
+        this.selectedIndex = null;
       else this.selectedIndex = index;
     },
-    userRowClass(index: number) {
+    userRowClass(index: number): string {
       if (this.isCurrentUser(this.users[index].id)) return 'user-current';
 
       if (this.selectedIndex === index) return 'user-selected';
@@ -136,7 +149,15 @@ export default Vue.extend({
     requestLogin() {
       if (this.selectedIndex === null) return;
       const { id } = this.users[this.selectedIndex];
-      this.$store.dispatch('setUserID', id);
+      this.$store.dispatch('login', id);
+    },
+    requestLogout() {
+      this.$store.dispatch('logout');
+    }
+  },
+  computed: {
+    isUserLoggedIn(): boolean {
+      return this.$store.state.userId !== null;
     }
   }
 });

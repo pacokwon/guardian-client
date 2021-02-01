@@ -39,8 +39,11 @@ const store = new Vuex.Store<GuardianState>({
     }
   },
   actions: {
-    setUserID({ commit }, userID: string) {
+    login({ commit }, userID: string) {
       commit('setUserID', userID);
+    },
+    logout({ commit }) {
+      commit('setUserID', null);
     }
   }
 });
