@@ -24,6 +24,16 @@ const store = new Vuex.Store<GuardianState>({
     userID: null
   },
   mutations: {
+    initializeStore(state) {
+      if (localStorage.getItem('store') !== null) {
+        this.replaceState(
+          Object.assign(
+            state,
+            JSON.parse(localStorage.getItem('store') as string)
+          )
+        );
+      }
+    },
     setUserID(state, userID: string) {
       state.userID = userID;
     }
@@ -35,9 +45,16 @@ const store = new Vuex.Store<GuardianState>({
   }
 });
 
+store.subscribe((_, state) => {
+  localStorage.setItem('store', JSON.stringify(state));
+});
+
 new Vue({
   router,
   apolloProvider,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  beforeCreate() {
+    this.$store.commit('initializeStore');
+  }
 }).$mount('#app');
