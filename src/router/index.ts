@@ -43,6 +43,20 @@ const routes: Array<RouteConfig> = [
       import(
         /* webpackChunkName: "guardian-home" */ '../pages/GuardianHome.vue'
       )
+  },
+  {
+    path: '/not-found',
+    name: 'NotFound',
+    component: () =>
+      import(/* webpackChunkName: "not-found" */ '../pages/NotFound.vue')
+  },
+  {
+    path: '*',
+    name: 'NotFoundRedirect',
+    component: () =>
+      import(
+        /* webpackChunkName: "not-found" */ '../pages/NotFoundRedirect.vue'
+      )
   }
 ];
 
