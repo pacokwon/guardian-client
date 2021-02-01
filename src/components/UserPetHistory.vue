@@ -102,36 +102,12 @@ export default Vue.extend({
       page: 1,
       pageSize: 4,
       cursor: null as null | string,
-      hasNextPage: true,
+      hasNextPage: false,
       history: [] as UserPetHistory[]
     };
   },
   async created() {
-    const { userID } = this;
-
-    if (userID === '') return;
-
-    const result = await this.$apollo.query({
-      query: fetchHistoryQuery,
-      variables: { userID, first: this.pageSize }
-    });
-
-    const { petHistory = [] } = result?.data?.user || {};
-    this.history = (petHistory?.edges || []).map(
-      ({ node }: Node<UserPetHistoryInput>) => {
-        const { releasedAt, registeredAt, ...rest } = node;
-        return {
-          releasedAt: new Date(releasedAt),
-          registeredAt: new Date(registeredAt),
-          ...rest
-        };
-      }
-    );
-
-    const { hasNextPage, endCursor } =
-      result?.data?.user?.petHistory?.pageInfo || {};
-    this.hasNextPage = hasNextPage;
-    this.cursor = endCursor;
+    await this.fetchNextPage();
   },
   methods: {
     async fetchNextPage() {

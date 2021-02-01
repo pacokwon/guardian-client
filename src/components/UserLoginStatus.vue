@@ -75,21 +75,7 @@ const fetchUsersQuery = gql`
 export default Vue.extend({
   name: 'user-login-status',
   async created() {
-    const result = await this.$apollo.query({
-      query: fetchUsersQuery,
-      variables: {
-        first: this.pageSize
-      }
-    });
-
-    const { users = [] } = result?.data || {};
-    this.users = (users?.edges || []).map(({ node }: Node<User>) => ({
-      ...node
-    }));
-
-    const { hasNextPage, endCursor } = result?.data?.users?.pageInfo || {};
-    this.hasNextPage = hasNextPage;
-    this.cursor = endCursor;
+    await this.fetchNextPage();
   },
   data() {
     return {
@@ -97,7 +83,7 @@ export default Vue.extend({
       page: 1,
       pageSize: 8,
       cursor: null as null | string,
-      hasNextPage: true,
+      hasNextPage: false,
       selectedIndex: null as null | number
     };
   },
