@@ -4,8 +4,7 @@
       <user-profile
         class="user-detail--profile"
         :id="id"
-        :nickname="nickname"
-        @nickname-update="updateNickname"
+        :nickname.sync="nickname"
       />
     </transition>
     <transition name="fade-move" appear>

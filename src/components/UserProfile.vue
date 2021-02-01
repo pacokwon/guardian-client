@@ -98,7 +98,7 @@ export default Vue.extend({
       this.updateState = UpdateStatus.UPDATING;
       const result = await this.$apollo.mutate({
         mutation: gql`
-          mutation ($id: ID!, $nickname: String!) {
+          mutation($id: ID!, $nickname: String!) {
             updateUser(input: { id: $id, nickname: $nickname }) {
               id
               nickname
@@ -122,7 +122,7 @@ export default Vue.extend({
         });
 
         this.editing = !this.editing;
-        this.$emit('nickname-update', editedNickname);
+        this.$emit('update:nickname', editedNickname);
       } else {
         this.$bvToast.toast(
           'An error has occurred while updating your information',
