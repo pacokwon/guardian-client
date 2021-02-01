@@ -216,12 +216,8 @@ div.history-row-header {
   display: flex;
   justify-content: center;
 
-  & > div.btn-group {
-    flex: 1;
-  }
-
   & > div.pagination-title {
-    flex: 2;
+    flex: 1;
     display: flex;
     align-items: center;
     font-weight: bold;
@@ -237,14 +233,9 @@ button.pagination-button {
 
   padding: 0.2rem 0.5rem;
   font-size: 0.6rem;
-  color: var(--point-color);
   border-color: var(--border-color);
-  background-color: white;
-
-  &:hover:enabled {
-    background-color: var(--point-color);
-    color: white;
-  }
+  background-color: var(--point-color);
+  color: white;
 
   &:active:enabled {
     background-color: var(--active-color) !important;
@@ -254,6 +245,8 @@ button.pagination-button {
 
   &[disabled],
   &:disabled {
+    background-color: white;
+    color: var(--point-color);
     cursor: not-allowed;
   }
 }

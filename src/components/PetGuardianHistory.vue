@@ -203,14 +203,9 @@ button.pagination-button {
 
   padding: 0.2rem 0.5rem;
   font-size: 0.6rem;
-  color: var(--point-color);
   border-color: var(--border-color);
-  background-color: white;
-
-  &:hover:enabled {
-    background-color: var(--point-color);
-    color: white;
-  }
+  background-color: var(--point-color);
+  color: white;
 
   &:active:enabled {
     background-color: var(--active-color) !important;
@@ -221,6 +216,8 @@ button.pagination-button {
   &[disabled],
   &:disabled {
     cursor: not-allowed;
+    background-color: white;
+    color: var(--point-color);
   }
 }
 </style>
