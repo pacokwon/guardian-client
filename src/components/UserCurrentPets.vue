@@ -25,7 +25,11 @@
             @error="setAltImage(id)"
           />
           <div class="info">
-            <div>{{ nickname }}</div>
+            <div>
+              <router-link class="link" :to="'/pets/' + id">
+                {{ nickname }}
+              </router-link>
+            </div>
             <species-badge :species="species" />
           </div>
           <div class="register-date">Since {{ registeredAt }}</div>
@@ -94,5 +98,9 @@ div.current-pet-row {
     font-size: 0.9rem;
     text-align: center;
   }
+}
+
+a.link {
+  color: inherit;
 }
 </style>

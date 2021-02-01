@@ -28,7 +28,9 @@
             <b-img thumbnail rounded="circle" :src="pet.imageUrl" />
           </div>
           <div class="nickname">
-            {{ pet.nickname }}
+            <router-link class="link" :to="'/pets/' + pet.id" >
+              {{ pet.nickname }}
+            </router-link>
           </div>
           <div class="duration" v-if="released">
             {{ registeredAt.toISOString().slice(0, 10) }} ~
@@ -217,5 +219,9 @@ button.pagination-button {
     background-color: white;
     color: var(--point-color);
   }
+}
+
+a.link {
+  color: inherit;
 }
 </style>

@@ -39,7 +39,11 @@
       </div>
       <div class="guardian-row" v-else>
         <b-img thumbnail rounded="circle" :src="guardianImageUrl" />
-        <span class="nickname">{{ nickname }}</span>
+        <span class="nickname">
+          <router-link class="link" :to="'/users/' + guardian.id">
+            {{ nickname }}
+          </router-link>
+        </span>
         <b-button
           v-if="currentUserIsGuardian"
           class="unregister"
@@ -257,5 +261,9 @@ button.unregister {
   & button.modal-cancel {
     border: none;
   }
+}
+
+a.link {
+  color: inherit;
 }
 </style>

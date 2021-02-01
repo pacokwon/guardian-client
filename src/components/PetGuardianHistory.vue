@@ -28,7 +28,9 @@
             <b-img thumbnail rounded="circle" :src="avatarURL(user.id)" />
           </div>
           <div class="nickname">
-            {{ user.nickname }}
+            <router-link class="link" :to="'/users/' + user.id">
+              {{ user.nickname }}
+            </router-link>
           </div>
           <div class="duration" v-if="released">
             {{ registeredAt.toISOString().slice(0, 10) }} ~
@@ -219,5 +221,9 @@ button.pagination-button {
     background-color: white;
     color: var(--point-color);
   }
+}
+
+a.link {
+  color: inherit;
 }
 </style>
