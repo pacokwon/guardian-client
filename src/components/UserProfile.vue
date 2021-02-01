@@ -22,14 +22,39 @@
       </b-button>
     </div>
     <b-spinner v-else-if="editing" variant="primary" type="grow" />
-    <b-button
-      v-else
-      class="edit"
-      variant="outline-primary"
-      @click="toggleEditAndFocus"
-    >
-      <b-icon-pencil-square />
-    </b-button>
+    <div v-else class="edit-button-group">
+      <b-button class="delete" variant="outline-primary" v-b-modal.delete-modal>
+        <b-icon-trash-fill />
+      </b-button>
+      <b-button
+        class="edit"
+        variant="outline-primary"
+        @click="toggleEditAndFocus"
+      >
+        <b-icon-pencil-square />
+      </b-button>
+    </div>
+    <b-modal id="delete-modal" title="Delete User?" ref="delete-modal">
+      Are you sure you want to delete this user?
+      <template #modal-footer="{ cancel }">
+        <div>
+          <b-button
+            class="modal-delete"
+            variant="outline-primary"
+            @click="handleDelete"
+          >
+            Delete
+          </b-button>
+          <b-button
+            class="modal-cancel"
+            variant="outline-primary"
+            @click="cancel()"
+          >
+            Cancel
+          </b-button>
+        </div>
+      </template>
+    </b-modal>
     <b-card-body>
       <b-img rounded="circle" :src="avatarURL(id)" />
       <input
@@ -48,6 +73,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import gql from 'graphql-tag';
+import { BvEvent } from 'bootstrap-vue';
+import { BModal } from 'bootstrap-vue/src/components/modal';
 import { getAvatarUrlFromID } from '@/utils';
 
 enum UpdateStatus {
@@ -140,6 +167,44 @@ export default Vue.extend({
     cancelEditing() {
       this.editedNickname = this.nickname;
       this.editing = !this.editing;
+    },
+    async handleDelete(bvModalEvent: BvEvent) {
+      bvModalEvent.preventDefault();
+
+      const { id } = this;
+      const result = await this.$apollo.mutate({
+        mutation: gql`
+          mutation($id: ID!) {
+            deleteUser(id: $id) {
+              success
+            }
+          }
+        `,
+        variables: { id }
+      });
+
+      (this.$refs['delete-modal'] as BModal).hide();
+
+      if (result?.data?.deleteUser?.success) {
+        this.$bvToast.toast(
+          'User has been successfully updated. Navigating to home...',
+          {
+            title: 'Guardian',
+            autoHideDelay: 2000,
+            variant: 'primary'
+          }
+        );
+
+        await new Promise(res => setTimeout(res, 2000)).then(() => {
+          this.$router.push('/');
+        });
+      } else {
+        this.$bvToast.toast('Error has occurred while deleting user!', {
+          title: 'Guardian',
+          autoHideDelay: 5000,
+          variant: 'danger'
+        });
+      }
     }
   },
   watch: {
@@ -189,14 +254,48 @@ div.card-body {
   }
 }
 
-button.edit {
+div.edit-button-group {
   align-self: flex-end;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+button.edit {
   background-color: transparent;
   border: none;
   color: var(--guardian-primary);
+}
 
-  margin-top: 10px;
-  margin-right: 10px;
+button.delete {
+  background-color: transparent;
+  border: none;
+  color: var(--guardian-red-400);
+
+  &:active {
+    background-color: var(--guardian-red-400) !important;
+    color: white !important;
+  }
+
+  &:focus {
+    box-shadow: none; /* remove bootstrap style */
+  }
+}
+
+#delete-modal {
+  & button.modal-delete {
+    color: var(--guardian-red-400);
+    border: none;
+
+    &:hover,
+    &:active {
+      background-color: var(--guardian-red-400);
+      color: white;
+    }
+  }
+}
+
+button.modal-cancel {
+  border: none;
 }
 
 div.control-group {

@@ -103,6 +103,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { BvEvent } from 'bootstrap-vue';
+import { BModal } from 'bootstrap-vue/src/components/modal';
 import gql from 'graphql-tag';
 import SpeciesBadge from '@/components/SpeciesBadge.vue';
 import { getAltImage } from '@/utils';
@@ -227,7 +229,7 @@ export default Vue.extend({
         this.editedFields.species = this.species;
       }
     },
-    async handleDelete(bvModalEvent) {
+    async handleDelete(bvModalEvent: BvEvent) {
       bvModalEvent.preventDefault();
 
       const { id } = this;
@@ -242,7 +244,7 @@ export default Vue.extend({
         variables: { id }
       });
 
-      this.$refs['delete-modal'].hide();
+      (this.$refs['delete-modal'] as BModal).hide();
 
       if (result?.data?.deletePet?.success) {
         this.$bvToast.toast(
