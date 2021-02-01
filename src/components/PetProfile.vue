@@ -373,10 +373,10 @@ button.delete {
       color: white;
     }
   }
-}
 
-button.modal-cancel {
-  border: none;
+  & button.modal-cancel {
+    border: none;
+  }
 }
 
 div.control-group {
