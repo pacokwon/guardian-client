@@ -28,7 +28,7 @@
             <b-img thumbnail rounded="circle" :src="pet.imageUrl" />
           </div>
           <div class="nickname">
-            <router-link class="link" :to="'/pets/' + pet.id" >
+            <router-link class="link" :to="'/pets/' + pet.id">
               {{ pet.nickname }}
             </router-link>
           </div>

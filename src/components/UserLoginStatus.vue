@@ -79,7 +79,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      users: [],
+      users: [] as User[],
       page: 1,
       pageSize: 8,
       cursor: null as null | string,

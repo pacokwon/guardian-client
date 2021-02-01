@@ -88,7 +88,7 @@ export default Vue.extend({
       return this.$store.state.userID !== null;
     },
     currentUserIsGuardian() {
-      return this.$store.state.userID === this.guardian.id;
+      return this.$store.state.userID === this.guardian?.id;
     }
   },
   methods: {
