@@ -37,20 +37,23 @@
         </div>
       </div>
     </div>
-    <div v-if="selectedIndex !== null" class="confirm-group">
-      <div class="confirm-message">
-        Log in as {{ users[selectedIndex].nickname }}?
-      </div>
-      <b-button class="confirm" @click="requestLogin">
-        Confirm
-      </b-button>
-    </div>
-    <div v-else-if="isUserLoggedIn" class="confirm-group">
+    <div
+      v-if="selectedIndex !== null && isCurrentUser(users[selectedIndex].id)"
+      class="confirm-group"
+    >
       <div class="confirm-message">
         Log out?
       </div>
       <b-button class="confirm" @click="requestLogout">
         Log Out
+      </b-button>
+    </div>
+    <div v-else-if="selectedIndex !== null" class="confirm-group">
+      <div class="confirm-message">
+        Log in as {{ users[selectedIndex].nickname }}?
+      </div>
+      <b-button class="confirm" @click="requestLogin">
+        Confirm
       </b-button>
     </div>
   </section>
@@ -125,11 +128,7 @@ export default Vue.extend({
     },
     selectUser(index: number) {
       // user is logged in as the selected user OR user selected an already selected user
-      if (
-        this.isCurrentUser(this.users[index].id) ||
-        this.selectedIndex === index
-      )
-        this.selectedIndex = null;
+      if (this.selectedIndex === index) this.selectedIndex = null;
       else this.selectedIndex = index;
     },
     userRowClass(index: number): string {
@@ -143,9 +142,11 @@ export default Vue.extend({
       if (this.selectedIndex === null) return;
       const { id } = this.users[this.selectedIndex];
       this.$store.dispatch('login', id);
+      this.selectedIndex = null;
     },
     requestLogout() {
       this.$store.dispatch('logout');
+      this.selectedIndex = null;
     }
   },
   computed: {
