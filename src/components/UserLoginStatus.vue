@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="user-grid">
-      <div class="history-row-header">
+      <div v-if="users.length > 0" class="history-row-header">
         <b-button-group>
           <b-button
             class="pagination-button"
@@ -13,6 +13,13 @@
         </b-button-group>
         <div class="pagination-title">
           Log in as:
+        </div>
+      </div>
+      <div v-else class="history-row-header">
+        <div class="pagination-title" style="margin: 0;">
+          <router-link to="/users/register">
+            Be The First To Sign Up!
+          </router-link>
         </div>
       </div>
       <div
