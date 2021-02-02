@@ -181,6 +181,7 @@ h4.card-title {
 .guardian-row {
   align-items: center;
   display: flex;
+  transition: transform 0.2s ease;
 
   & > * {
     margin-right: 20px;
@@ -195,6 +196,11 @@ h4.card-title {
     font-size: 1.2rem;
     font-weight: bold;
     text-transform: capitalize;
+  }
+
+  &:hover {
+    background-color: #f9f9f9;
+    transform: translate(0, -3px);
   }
 }
 

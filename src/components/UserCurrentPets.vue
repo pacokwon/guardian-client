@@ -78,6 +78,7 @@ div.current-pet-row {
   grid-template-columns: 1fr 3fr 2fr;
   align-items: center;
   column-gap: 5px;
+  transition: transform 0.2s ease;
 
   & > .info {
     text-transform: capitalize;
@@ -97,6 +98,11 @@ div.current-pet-row {
   & > .register-date {
     font-size: 0.9rem;
     text-align: center;
+  }
+
+  &:hover {
+    background-color: #f9f9f9;
+    transform: translate(0, -3px);
   }
 }
 
