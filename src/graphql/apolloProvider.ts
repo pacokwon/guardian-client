@@ -9,8 +9,10 @@ const defaultOptions: DefaultOptions = {
   }
 };
 
+const baseURL = process.env.VUE_APP_API_URL || '';
+
 const apolloClient = new ApolloClient({
-  link: createHttpLink({ uri: 'http://localhost:3000/graphql' }),
+  link: createHttpLink({ uri: `${baseURL}/graphql` }),
   cache: new InMemoryCache(),
   defaultOptions
 });
