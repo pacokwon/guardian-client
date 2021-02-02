@@ -174,6 +174,15 @@ div.user-row {
   justify-items: center;
   padding: 8px;
   border-radius: 8px;
+  border: 1px solid transparent;
+
+  transition: transform 0.2s ease;
+
+  &:hover {
+    background-color: var(--guardian-grey-200);
+    transform: translate(0, -3px);
+    cursor: pointer;
+  }
 
   & .avatar {
     & > img {
@@ -207,14 +216,6 @@ div.user-row {
     &:hover {
       background-color: var(--guardian-indigo-50);
     }
-  }
-
-  transition: transform 0.2s ease;
-
-  &:hover {
-    background-color: #f9f9f9;
-    transform: translate(0, -3px);
-    cursor: pointer;
   }
 }
 

@@ -24,6 +24,7 @@ export default Vue.extend({
   --guardian-grey-50: #fafafa;
   --guardian-grey-100: #f5f5f5;
   --guardian-grey-200: #eeeeee;
+  --guardian-grey-200: #eeeeee;
   --guardian-grey-700: #616161;
   --guardian-green-50: #e8f5e9;
   --guardian-green-100: #c8e6c9;
