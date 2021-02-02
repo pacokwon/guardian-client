@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="user-grid">
-      <div v-if="users.length > 0" class="history-row-header">
+      <div v-if="users.length > 0" class="user-row-header">
         <b-button-group>
           <b-button
             class="pagination-button"
@@ -15,7 +15,7 @@
           Log in as:
         </div>
       </div>
-      <div v-else class="history-row-header">
+      <div v-else class="user-row-header">
         <div class="pagination-title" style="margin: 0;">
           <router-link to="/users/register">
             Be The First To Sign Up!
@@ -24,7 +24,7 @@
       </div>
       <div
         v-for="({ id, nickname }, index) in users"
-        class="history-row"
+        class="user-row"
         :class="userRowClass(index)"
         :key="id"
         @click="selectUser(index)"
@@ -165,7 +165,7 @@ div.user-grid {
   grid-template-columns: 1fr 1fr;
 }
 
-div.history-row {
+div.user-row {
   font-size: 1.1rem;
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -218,7 +218,7 @@ div.history-row {
   }
 }
 
-div.history-row-header {
+div.user-row-header {
   grid-column: 1 / 3;
 
   display: flex;
