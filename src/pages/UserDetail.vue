@@ -50,47 +50,56 @@ export default Vue.extend({
     };
   },
   async created() {
-    const { userID } = this.$route.params;
-
-    const result = await this.$apollo.query({
-      query: gql`
-        query($userID: ID!) {
-          user(id: $userID) {
-            id
-            nickname
-            currentPets {
-              pet {
-                id
-                nickname
-                species
-                imageUrl
-              }
-              registeredAt
-            }
-          }
-        }
-      `,
-      variables: { userID },
-      errorPolicy: 'all'
-    });
-
-    if (result?.errors) this.$router.replace('/not-found');
-
-    const { id, nickname, currentPets } = result?.data?.user || {};
-    this.id = id;
-    this.nickname = nickname;
-    this.currentPets = currentPets.map(
-      ({ pet, registeredAt }: { pet: Pet; registeredAt: string }) => ({
-        ...pet,
-        registeredAt: registeredAt.slice(0, 10)
-      })
-    );
-
-    this.userInfoLoading = false;
+    await this.fetchUserInfo();
   },
   methods: {
+    async fetchUserInfo() {
+      const { userID } = this.$route.params;
+      this.userInfoLoading = true;
+
+      const result = await this.$apollo.query({
+        query: gql`
+          query($userID: ID!) {
+            user(id: $userID) {
+              id
+              nickname
+              currentPets {
+                pet {
+                  id
+                  nickname
+                  species
+                  imageUrl
+                }
+                registeredAt
+              }
+            }
+          }
+        `,
+        variables: { userID },
+        errorPolicy: 'all'
+      });
+
+      if (result?.errors) this.$router.replace('/not-found');
+
+      const { id, nickname, currentPets } = result?.data?.user || {};
+      this.id = id;
+      this.nickname = nickname;
+      this.currentPets = currentPets.map(
+        ({ pet, registeredAt }: { pet: Pet; registeredAt: string }) => ({
+          ...pet,
+          registeredAt: registeredAt.slice(0, 10)
+        })
+      );
+
+      this.userInfoLoading = false;
+    },
     updateNickname(newNickname: string) {
       this.nickname = newNickname;
+    }
+  },
+  watch: {
+    async $route() {
+      await this.fetchUserInfo();
     }
   }
 });
