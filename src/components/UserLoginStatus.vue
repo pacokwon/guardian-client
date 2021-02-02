@@ -143,7 +143,7 @@ export default Vue.extend({
   },
   computed: {
     isUserLoggedIn(): boolean {
-      return this.$store.state.userId !== null;
+      return this.$store.state.userID !== null;
     }
   }
 });
