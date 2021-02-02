@@ -74,7 +74,7 @@ export default Vue.extend({
       errorPolicy: 'all'
     });
 
-    if (result?.errors) this.$router.push('/not-found');
+    if (result?.errors) this.$router.replace('/not-found');
 
     const { id, nickname, currentPets } = result?.data?.user || {};
     this.id = id;

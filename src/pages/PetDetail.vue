@@ -76,7 +76,7 @@ export default Vue.extend({
       errorPolicy: 'all'
     });
 
-    if (result?.errors) this.$router.push('/not-found');
+    if (result?.errors) this.$router.replace('/not-found');
 
     const { id, nickname, species, imageUrl, guardian } =
       result?.data?.pet || {};
